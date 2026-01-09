@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Share Flex Message Ready</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #eef2ff;
+        }
+        .msg {
+            display: none;
+            padding: 20px 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            font-size: 18px;
+            text-align: center;
+            color: #333;
+        }
+        #errorMsg { 
+            color: #d9534f;
+            word-break: break-word;
+            max-width: 80vw;
+        }
+    </style>
+</head>
+<body>
+    <div class="msg" id="loadingMsg">⏳ กำลังเริ่มต้น LIFF และเตรียมการแชร์...</div>
+    <div class="msg" id="successMsg">✅ แชร์ให้เพื่อน ๆ สำเร็จแล้ว</div>
+    <div class="msg" id="errorMsg">❌ เกิดข้อผิดพลาดในการแชร์</div> 
+
+    <script>
+        // กำหนด Flex Message (Carousel Structure ที่ถูกต้องแล้ว)
+        const flexMessage = {
+            type: "flex",
+            altText: "📚 แนะนำหนังสือน่าอ่าน โดย นตท.ชั้นปีที่ 2",
+            contents: 
+          // วาง Code ที่ดำเนินการทำใน developers.line  เรียบร้อยแล้ว 
+                  
+{
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "image",
+            "url": "https://img5.pic.in.th/file/secure-sv1/S__7938079.jpg",
+            "size": "full",
+            "animated": true,
+            "aspectMode": "cover",
+            "aspectRatio": "2.3:3",
+            "offsetBottom": "none"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "uri": "https://liff.line.me/2008860345-MzWXQQKP",
+              "label": "    "
+            },
+            "position": "absolute",
+            "offsetTop": "90%",
+            "offsetEnd": "30%",
+            "gravity": "bottom",
+            "offsetStart": "35%",
+            "offsetBottom": "0%"
+          }
+        ],
+        "borderWidth": "none",
+        "paddingAll": "none"
+      }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://img2.pic.in.th/S__7938080_0.jpg",
+        "size": "full",
+        "aspectMode": "cover",
+        "aspectRatio": "2.9:3",
+        "animated": true,
+        "action": {
+          "type": "uri",
+          "label": "action",
+          "uri": "https://youtube.com/shorts/zmuIZK8EVv4?si=sEQR7Wg5K8_rCzCe"
+        }
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "backgroundColor": "#F54927",
+        "contents": [
+          {
+            "type": "text",
+            "text": "ชีวิตของเรามีแค่สี่พันสัปดาห์",
+            "weight": "bold",
+            "size": "md",
+            "color": "#E8E8E8",
+            "wrap": true
+          },
+          {
+            "type": "text",
+            "text": "แนะนำโดย :  รณกร บุตรวงค์",
+            "size": "sm",
+            "color": "#E8E8E8",
+            "wrap": true
+          }
+        ],
+        "cornerRadius": "none"
+      }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://img2.pic.in.th/S__7938081_0.jpg",
+        "size": "full",
+        "aspectMode": "cover",
+        "aspectRatio": "2.9:3",
+        "animated": true,
+        "action": {
+          "type": "uri",
+          "label": "action",
+          "uri": "https://youtube.com/shorts/ZUfYiyaQWZk?si=2_IZOPmth_z-Jo8J"
+        }
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "backgroundColor": "#F54927",
+        "contents": [
+          {
+            "type": "text",
+            "text": "คนจรดาบ",
+            "weight": "bold",
+            "size": "md",
+            "color": "#E8E8E8",
+            "wrap": true
+          },
+          {
+            "type": "text",
+            "text": "แนะนำโดย : ศุภวิชญ์ ทองนุ้ย",
+            "size": "sm",
+            "color": "#E8E8E8",
+            "wrap": true
+          }
+        ],
+        "cornerRadius": "none"
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+                  ;  //อย่าลืม ;  สำคัญ
+
+        // ฟังก์ชันช่วยในการสลับการแสดงข้อความ
+        function displayMessage(id) {
+            document.querySelectorAll('.msg').forEach(el => el.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+
+        async function main() {
+            displayMessage('loadingMsg');
+            
+            try {
+
+
+                          // *** 1. สำคัญ: แก้ไข "LIFF ID 2007236505-Lbr300GA ของนักเรียนให้ถูกต้อง " ***
+
+                await liff.init({ liffId: "2007236505-Lbr300GA" });  
+
+                if (!liff.isLoggedIn()) {
+                    liff.login();
+                    return;
+                }
+                
+                // ตรวจสอบความพร้อมของ API แชร์
+                if (!liff.isApiAvailable("shareTargetPicker")) {
+                    throw new Error("API shareTargetPicker ไม่รองรับ (โปรดเปิดในแอป LINE)");
+                }
+
+                document.getElementById("loadingMsg").style.display = "none";
+
+                // เปิดตัวเลือกการแชร์
+                const result = await liff.shareTargetPicker([flexMessage]);
+                
+                if (result) {
+                    displayMessage('successMsg');
+                    setTimeout(() => liff.closeWindow(), 2000);
+                } else {
+                    // ผู้ใช้กด 'ยกเลิก' การแชร์
+                    liff.closeWindow();
+                }
+
+            } catch (err) {
+                console.error("Share Error:", err);
+                
+                // แสดงข้อความ Error ที่ละเอียดขึ้น
+                const errorMsgElement = document.getElementById('errorMsg');
+                errorMsgElement.innerHTML = `❌ เกิดข้อผิดพลาดในการแชร์: <br> ${err.message || 'ไม่ทราบสาเหตุ'}`;
+                
+                displayMessage('errorMsg'); 
+                setTimeout(() => liff.closeWindow(), 5000); 
+            }
+        }
+
+        main();
+    </script>
+</body>
+</html>
